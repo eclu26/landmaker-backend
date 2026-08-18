@@ -1,10 +1,11 @@
 from fastapi import FastAPI
 
-from app.routers import projects
+from app.routers import *
 
-app = FastAPI(title="Лендмейкер", version="1.0.0")
+app = FastAPI(title="Лендмейкер Backend", version="1.0.0")
 
 app.include_router(projects.router)
+app.include_router(buckets.router)
 
 @app.get("/")
 async def root() -> dict:

@@ -9,4 +9,10 @@ class Settings(BaseSettings):
     db_password: str
     db_name: str
 
+    s3_host: str
+    s3_port: int = 9000
+    s3_access_key: str
+    s3_secret_key: str
+    s3_region: str
+
 settings = Settings()
