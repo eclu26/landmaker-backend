@@ -11,7 +11,7 @@ s3 = boto3.client(
     region_name=settings.s3_region
 )
 
-async def get_html(project_id: UUID, html_id: UUID) -> str:
+async def get_html_rq(project_id: UUID, html_id: UUID) -> str:
     response = s3.get_object(
         Bucket=str(project_id),
         Key=f"htmls/{str(html_id)}.html"

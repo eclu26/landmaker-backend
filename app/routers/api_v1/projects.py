@@ -6,7 +6,7 @@ from uuid import UUID, uuid4
 from app.database import get_session
 from app.models.project import Project
 from app.schemas.project import GetProjectResponse, CreateProjectRequest, CreateProjectResponse
-from app.functions.database import get_project
+from app.functions.database import get_project_rq, create_project_rq
 
 router = APIRouter(
     prefix="/api/v1/projects",
@@ -15,7 +15,7 @@ router = APIRouter(
 
 @router.get("/{project_id}", response_model=GetProjectResponse)
 async def get_project(project_id: UUID, session: AsyncSession = Depends(get_session)) -> GetProjectResponse:
-    project = await get_project(session, project_id)
+    project = await get_project_rq(session, project_id)
 
     if project is None:
         raise HTTPException(
@@ -28,15 +28,5 @@ async def get_project(project_id: UUID, session: AsyncSession = Depends(get_sess
 @router.post("/", response_model=CreateProjectResponse)
 async def create_project(project: CreateProjectRequest, 
                          session: AsyncSession = Depends(get_session)) -> CreateProjectResponse:
-    new_project = Project(
-        id=uuid4(),
-        name=project.name,
-        description=project.description
-    )
-
-    session.add(new_project)
-    await session.commit()
-    await session.refresh(new_project)
-
+    new_project = await create_project_rq(session, project.name, project.description)
     return new_project
-

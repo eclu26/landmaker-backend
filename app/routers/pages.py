@@ -6,8 +6,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import get_session
 from app.models.project import Project
 from app.schemas.project import GetProjectResponse
-from app.functions.database import get_project
-from app.functions.s3 import get_html
+from app.functions.database import get_project_rq
+from app.functions.s3 import get_html_rq
 
 router = APIRouter(
     prefix="/pages",
@@ -16,7 +16,7 @@ router = APIRouter(
 
 @router.get("/{project_id}", response_class=HTMLResponse)
 async def get_project_html(project_id: UUID, session: AsyncSession = Depends(get_session)) -> HTMLResponse:
-    project = await get_project(session, project_id)
+    project = await get_project_rq(session, project_id)
     
     
     if project is None:
@@ -24,6 +24,6 @@ async def get_project_html(project_id: UUID, session: AsyncSession = Depends(get
     else:
         current_html = GetProjectResponse.model_validate(project).current_html
 
-    html_content = await get_html(project_id, current_html)
+    html_content = await get_html_rq(project_id, current_html)
 
     return HTMLResponse(content=html_content)
