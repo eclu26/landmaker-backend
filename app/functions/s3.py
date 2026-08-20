@@ -13,8 +13,8 @@ s3 = boto3.client(
 
 async def get_html_rq(project_id: UUID, html_id: UUID) -> str:
     response = s3.get_object(
-        Bucket=str(project_id),
-        Key=f"htmls/{str(html_id)}.html"
+        Bucket=settings.s3_bucket,
+        Key=f"{str(project_id)}/htmls/{str(html_id)}.html"
     )
 
     return response["Body"].read().decode("utf-8")

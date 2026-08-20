@@ -14,5 +14,10 @@ class Settings(BaseSettings):
     s3_access_key: str
     s3_secret_key: str
     s3_region: str
+    s3_bucket: str = "landmaker"
+
+    jwt_secret: str
+    jwt_algorithm: str = "HS256"
+    jwt_expire_in_minutes: int = 60
 
 settings = Settings()

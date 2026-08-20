@@ -1,13 +1,14 @@
 from fastapi import FastAPI
 
 from app.routers import pages
-from app.routers.api_v1 import projects
+from app.routers.api_v1 import projects, users
 
 app = FastAPI(title="Лендмейкер Backend", version="1.0.0")
 
 app.include_router(pages.router)
 
 app.include_router(projects.router)
+app.include_router(users.router)
 
 @app.get("/status")
 async def status() -> dict:
