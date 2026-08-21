@@ -9,7 +9,6 @@ class CommonUserRequest(BaseModel):
 class CreateUserResponse(BaseModel):
     id: UUID
     email: str
-    password_hash: str
 
     model_config = {
         "from_attributes": True
@@ -18,7 +17,6 @@ class CreateUserResponse(BaseModel):
 class AuthUserResponse(BaseModel):
     id: UUID
     email: str
-    password_hash: str
     jwt: str
     
     model_config = {

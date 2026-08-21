@@ -15,7 +15,7 @@ router = APIRouter(
     tags=["Users"]
 )
 
-@router.post("/", response_model=CreateUserResponse)
+@router.post("/register", response_model=CreateUserResponse)
 async def create_user(user: CommonUserRequest, session: AsyncSession = Depends(get_session)) -> CreateUserResponse:
     existing_user = await get_user_by_email_rq(session, user.email)
 
@@ -29,9 +29,12 @@ async def create_user(user: CommonUserRequest, session: AsyncSession = Depends(g
 
     new_user = await create_user_rq(session, user.email, password_hash)
 
-    return new_user
+    return CreateUserResponse(
+        id=new_user.id,
+        email=new_user.email
+    )
 
-@router.get("/", response_model=AuthUserResponse)
+@router.post("/auth", response_model=AuthUserResponse)
 async def auth_user(user: CommonUserRequest, session: AsyncSession = Depends(get_session)) -> AuthUserResponse:
     existing_user = await get_user_by_email_rq(session, user.email)
 
@@ -50,7 +53,6 @@ async def auth_user(user: CommonUserRequest, session: AsyncSession = Depends(get
     response: AuthUserResponse = {
         "id": existing_user.id,
         "email": existing_user.email,
-        "password_hash": existing_user.password_hash,
         "jwt": create_jwt(existing_user.id)
     }
 

@@ -7,13 +7,13 @@ class Settings(BaseSettings):
     db_port: int = 5432
     db_user: str
     db_password: str
-    db_name: str
+    db_name: str = "landmaker"
 
     s3_host: str
     s3_port: int = 9000
     s3_access_key: str
     s3_secret_key: str
-    s3_region: str
+    s3_region: str = "us-east-1"
     s3_bucket: str = "landmaker"
 
     jwt_secret: str
