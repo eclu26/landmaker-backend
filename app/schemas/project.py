@@ -9,6 +9,7 @@ class GetProjectResponse(BaseModel):
     name: str
     description: str | None
     current_html: UUID | None
+    is_published: bool
     created_at: datetime
     updated_at: datetime
 
@@ -29,3 +30,10 @@ class CreateProjectResponse(BaseModel):
     model_config = {
         "from_attributes": True
     }
+
+class GenerateHTMLRequest(BaseModel):
+    prompt: str
+
+class GenerateHTMLResponse(BaseModel):
+    html_id: UUID
+    html: str

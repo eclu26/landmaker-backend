@@ -20,4 +20,8 @@ class Settings(BaseSettings):
     jwt_algorithm: str = "HS256"
     jwt_expire_in_minutes: int = 60
 
+    ai_endpoint: str
+    ai_secret_key: str
+    ai_html_model: str = "stealth/ox-alpha"
+
 settings = Settings()

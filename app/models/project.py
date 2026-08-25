@@ -1,7 +1,7 @@
 from uuid import UUID, uuid4
 from datetime import datetime
 
-from sqlalchemy import DateTime, ForeignKey, String, Text, func
+from sqlalchemy import Boolean, DateTime, ForeignKey, String, Text, func
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.database import Base
@@ -34,6 +34,12 @@ class Project(Base):
     current_html: Mapped[UUID | None] = mapped_column(
         nullable=True,
         default=None,
+    )
+
+    is_published: Mapped[bool] = mapped_column(
+        Boolean,
+        default=False,
+        nullable=False,
     )
 
     created_at: Mapped[datetime] = mapped_column(

@@ -1,5 +1,5 @@
 import boto3
-from uuid import UUID
+from uuid import UUID, uuid4
 
 from app.settings import settings
 
@@ -18,3 +18,15 @@ async def get_html_rq(project_id: UUID, html_id: UUID) -> str:
     )
 
     return response["Body"].read().decode("utf-8")
+
+async def save_new_html_rq(project_id: UUID, html: str) -> UUID:
+    html_id = uuid4()
+
+    s3.put_object(
+        Bucket=settings.s3_bucket,
+        Key=f"{project_id}/htmls/{html_id}.html",
+        Body=html.encode("utf-8"),
+        ContentType="text/html; charset=utf-8",
+    )
+
+    return html_id

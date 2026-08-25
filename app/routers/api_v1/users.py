@@ -50,10 +50,8 @@ async def auth_user(user: CommonUserRequest, session: AsyncSession = Depends(get
             detail="Incorrect password.",
         )
 
-    response: AuthUserResponse = {
-        "id": existing_user.id,
-        "email": existing_user.email,
-        "jwt": create_jwt(existing_user.id)
-    }
-
-    return response
+    return AuthUserResponse(
+        id=existing_user.id,
+        email=existing_user.email,
+        jwt=create_jwt(existing_user.id)
+    )
